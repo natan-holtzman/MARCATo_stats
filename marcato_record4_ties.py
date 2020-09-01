@@ -34,6 +34,9 @@ rawdata = rawdata.sort_values('BuzzTime')
 
 #%%
 def judge_tu(qsort):
+    #takes in a dataframe representing one tossup in one game, pre-sorted by buzzpoint
+    #returns dictionaries containing updates to points for players and teams
+    #assumes that there was at least one buzz - if no one buzzed on either team, an error will be thrown
     team_result = {}
     player_result = {}
     #if the first buzz is correct
@@ -71,7 +74,8 @@ def judge_tu(qsort):
     return (team_result, player_result)
 #%%
 def simgame(t1,t2,gameset):
-    #gameset = rawdata[rawdata['RoundNumber']==rnd]
+    #takes in the names of two teams and a dataframe containing all games from a round
+    #returns two dictionaries with updates to the team and player scores from the game between those two teams in that round
     gamebuzz = gameset.loc[gameset['TeamName'].isin([t1,t2])]
     teamscores = {t1:0,t2:0}
     playerscores = {}
@@ -93,6 +97,7 @@ team_wins = dict(zip(teams,[0]*len(teams)))
 team_losses = dict(zip(teams,[0]*len(teams)))
 team_ties = dict(zip(teams,[0]*len(teams)))
 #%%
+#iterate over all round robins
 nteams = 36
 for rnd in range(1,13):
     print(rnd)
